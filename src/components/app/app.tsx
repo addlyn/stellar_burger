@@ -22,8 +22,17 @@ import {
 } from '@pages';
 import { Path } from '../../constants/path';
 import { ProtectedRoute } from './hoc/protected-route';
+import { useDispatch } from '../../services/store';
+import { useEffect } from 'react';
+import { fetchIngredients } from '../../services/slices/ingredientsSlice';
 
 const App = () => {
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch(fetchIngredients());
+  }, [dispatch]);
+
   const location = useLocation();
   const navigate = useNavigate();
   const state = location.state as { background?: Location };
