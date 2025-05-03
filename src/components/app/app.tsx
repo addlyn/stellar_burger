@@ -22,17 +22,26 @@ import {
 } from '@pages';
 import { Path } from '../../constants/path';
 import { ProtectedRoute } from './hoc/protected-route';
-import { useDispatch } from '../../services/store';
+import { useDispatch, useSelector } from '../../services/store';
 import { useEffect } from 'react';
 import { fetchIngredients } from '../../services/slices/ingredientsSlice';
+import { getCookie } from '../../utils/cookie';
+import { fetchUser } from '../../services/slices/userSlice';
+import { Preloader } from '@ui';
 
 const App = () => {
   const dispatch = useDispatch();
+  const { isLoading, isAuthenticated } = useSelector((state) => state.user);
 
   useEffect(() => {
     dispatch(fetchIngredients());
   }, [dispatch]);
 
+  useEffect(() => {
+    if (getCookie('accessToken')) {
+      dispatch(fetchUser());
+    }
+  }, []);
   const location = useLocation();
   const navigate = useNavigate();
   const state = location.state as { background?: Location };

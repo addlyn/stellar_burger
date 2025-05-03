@@ -1,6 +1,8 @@
 import { Navigate, useLocation } from 'react-router-dom';
 import { FC, ReactElement } from 'react';
 import { Path } from '../../../constants/path';
+import { selectIsAuthenticated } from '../../../services/slices/userSlice';
+import { useSelector } from '../../../services/store';
 
 interface ProtectedRouteProps {
   onlyForUnauth?: boolean;
@@ -11,7 +13,7 @@ export const ProtectedRoute: FC<ProtectedRouteProps> = ({
   onlyForUnauth = false,
   children
 }) => {
-  const isAuthenticated = false;
+  const isAuthenticated = useSelector(selectIsAuthenticated);
   const location = useLocation();
 
   if (onlyForUnauth && isAuthenticated) {

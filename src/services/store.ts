@@ -7,13 +7,12 @@ import {
 } from 'react-redux';
 
 import ingredientsReducer from './slices/ingredientsSlice';
-const rootReducer = () => {
-  ingredients: ingredientsReducer;
-};
+import userReducer from './slices/userSlice';
 
 export const store = configureStore({
   reducer: {
-    ingredients: ingredientsReducer
+    ingredients: ingredientsReducer,
+    user: userReducer
   }
 });
 
