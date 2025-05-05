@@ -27,11 +27,9 @@ import { useEffect } from 'react';
 import { fetchIngredients } from '../../services/slices/ingredientsSlice';
 import { getCookie } from '../../utils/cookie';
 import { fetchUser } from '../../services/slices/userSlice';
-import { Preloader } from '@ui';
 
 const App = () => {
   const dispatch = useDispatch();
-  const { isLoading, isAuthenticated } = useSelector((state) => state.user);
 
   useEffect(() => {
     dispatch(fetchIngredients());

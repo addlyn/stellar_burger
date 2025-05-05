@@ -8,11 +8,19 @@ import {
 
 import ingredientsReducer from './slices/ingredientsSlice';
 import userReducer from './slices/userSlice';
+import ordersReducer from './slices/orderSlice';
+import userOrdersReducer from './slices/userOrdersSlice';
+import burgerConstructorReducer from './slices/burgerConstructorSlice';
+import orderCreationReducer from './slices/orderCreationSlice';
 
 export const store = configureStore({
   reducer: {
     ingredients: ingredientsReducer,
-    user: userReducer
+    user: userReducer,
+    orders: ordersReducer,
+    userOrders: userOrdersReducer,
+    burgerConstructor: burgerConstructorReducer,
+    orderCreation: orderCreationReducer
   }
 });
 
