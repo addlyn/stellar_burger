@@ -1,0 +1,13 @@
+{
+    "success": true,
+    "name": "Бургер с беконом",
+    "order": {
+      "_id": "12345",
+      "number": 12345,
+      "ingredients": [
+        "ingredient1",
+        "ingredient2"
+      ]
+    }
+  }
+  

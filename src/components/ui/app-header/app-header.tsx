@@ -34,7 +34,7 @@ export const AppHeaderUI: FC<TAppHeaderUIProps> = ({ userName }) => (
           className={`${styles.link} pl-5 pr-5 pb-4 pt-4`}
         >
           <ProfileIcon type={'primary'} />
-          <p className='text text_type_main-default ml-2'>
+          <p className='text text_type_main-default ml-2' data-cy='user-name'>
             {userName || 'Личный кабинет'}
           </p>
         </Link>
