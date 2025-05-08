@@ -1,4 +1,7 @@
-import reducer, { setCurrentIngredient } from '../slices/ingredientsSlice';
+import reducer, {
+  initialState,
+  setCurrentIngredient
+} from '../slices/ingredientsSlice';
 import { fetchIngredients } from '../slices/ingredientsSlice';
 import { TIngredient } from '@utils-types';
 
@@ -29,13 +32,6 @@ describe('Ингредиенты', () => {
     image: 'https://code.s3.yandex.net/react/code/meat-01.png',
     image_mobile: 'https://code.s3.yandex.net/react/code/meat-01-mobile.png',
     image_large: 'https://code.s3.yandex.net/react/code/meat-01-large.png'
-  };
-
-  const initialState = {
-    items: [],
-    loading: false,
-    error: null,
-    currentIngredient: null
   };
 
   it('Должен инициализировать стейт ingredients', () => {

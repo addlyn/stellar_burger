@@ -4,7 +4,8 @@ import reducer, {
   removeIngredient,
   moveIngredientUp,
   moveIngredientDown,
-  clearConstructor
+  clearConstructor,
+  initialState
 } from '../slices/burgerConstructorSlice';
 import { TConstructorIngredient } from '@utils-types';
 
@@ -39,11 +40,6 @@ const mainIngredient: TConstructorIngredient = {
 };
 
 describe('Конструктор бургера', () => {
-  const initialState = {
-    bun: null,
-    ingredients: []
-  };
-
   it('Должен Инициализировать state', () => {
     expect(reducer(undefined, { type: 'unknown' })).toEqual(initialState);
   });

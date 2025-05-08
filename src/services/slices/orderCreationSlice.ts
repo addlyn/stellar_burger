@@ -8,7 +8,7 @@ interface OrderCreationState {
   error: string | null;
 }
 
-const initialState: OrderCreationState = {
+export const initialState: OrderCreationState = {
   orderRequest: false,
   orderModalData: null,
   error: null

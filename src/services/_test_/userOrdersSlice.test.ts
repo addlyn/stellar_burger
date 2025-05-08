@@ -1,13 +1,10 @@
-import reducer, { fetchUserOrders } from '../slices/userOrdersSlice';
+import reducer, {
+  fetchUserOrders,
+  initialState
+} from '../slices/userOrdersSlice';
 import { TOrder } from '@utils-types';
 
 describe('Редьюсер userOrdersSlice', () => {
-  const initialState = {
-    orders: [],
-    loading: false,
-    error: null
-  };
-
   const mockOrders: TOrder[] = [
     {
       _id: 'order1',

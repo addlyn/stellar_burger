@@ -1,16 +1,11 @@
 import reducer, {
   createOrder,
-  clearOrderModal
+  clearOrderModal,
+  initialState
 } from '../slices/orderCreationSlice';
 import { TOrder } from '@utils-types';
 
 describe('Редьюсер orderCreationSlice', () => {
-  const initialState = {
-    orderRequest: false,
-    orderModalData: null,
-    error: null
-  };
-
   const mockOrder: TOrder = {
     _id: '123',
     number: 1010,

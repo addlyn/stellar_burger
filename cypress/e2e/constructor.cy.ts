@@ -1,3 +1,14 @@
+const SELECTORS = {
+  INGREDIENT_ITEM: '[data-cy="ingredient-item"]',
+  BUN_ITEM: '[data-cy="ingredient-item"][data-type="bun"]',
+  MAIN_ITEM: '[data-cy="ingredient-item"][data-type="main"]',
+  MODAL: '[data-cy="modal"]',
+  MODAL_CLOSE: '[data-cy="modal-close"]',
+  MODAL_OVERLAY: '[data-cy="modal-overlay"]',
+  ORDER_BUTTON: '[data-cy="order-btn"]',
+  USER_NAME: '[data-cy="user-name"]'
+};
+
 describe('Тест: конструктор бургера', () => {
   beforeEach(() => {
     cy.intercept('GET', '**/api/ingredients', {
@@ -6,18 +17,13 @@ describe('Тест: конструктор бургера', () => {
 
     cy.visit('/');
   });
+
   it('добавляет булку и ингредиент и проверяет Redux state конструктора', () => {
     cy.wait('@getIngredients');
 
-    cy.get('[data-cy="ingredient-item"][data-type="bun"]')
-      .first()
-      .find('button')
-      .click();
+    cy.get(SELECTORS.BUN_ITEM).first().find('button').click();
 
-    cy.get('[data-cy="ingredient-item"][data-type="main"]')
-      .first()
-      .find('button')
-      .click();
+    cy.get(SELECTORS.MAIN_ITEM).first().find('button').click();
 
     cy.window().then((win) => {
       const state = win.store.getState();
@@ -36,38 +42,23 @@ describe('Тест: конструктор бургера', () => {
       cy.log('Конструктор:', JSON.stringify(state.burgerConstructor, null, 2));
     });
   });
+
   it('открывает и закрывает модальное окно ингредиента на крестик', () => {
-    cy.get('[data-cy="ingredient-item"]').first().click();
-    cy.get('[data-cy="modal"]').should('exist');
-    cy.get('[data-cy="modal-close"]').click();
-    cy.get('[data-cy="modal"]').should('not.exist');
+    cy.get(SELECTORS.INGREDIENT_ITEM).first().click();
+    cy.get(SELECTORS.MODAL).should('exist');
+    cy.get(SELECTORS.MODAL_CLOSE).click();
+    cy.get(SELECTORS.MODAL).should('not.exist');
   });
 
   it('открывает и закрывает модальное окно ингредиента по клику на оверлей', () => {
-    cy.get('[data-cy="ingredient-item"]').first().click();
-    cy.get('[data-cy="modal-overlay"]').click({ force: true });
-    cy.get('[data-cy="modal"]').should('not.exist');
+    cy.get(SELECTORS.INGREDIENT_ITEM).first().click();
+    cy.get(SELECTORS.MODAL_OVERLAY).click({ force: true });
+    cy.get(SELECTORS.MODAL).should('not.exist');
   });
 });
 
 describe('Тест: моковый пользователь, cоздание заказа', () => {
   beforeEach(() => {
-    cy.intercept('GET', '**/api/ingredients', {
-      fixture: 'ingredients.json'
-    }).as('getIngredients');
-
-    cy.intercept('GET', '**/auth/user', {
-      statusCode: 200,
-      body: {
-        success: true,
-        user: {
-          email: 'daria123@test.com',
-          name: 'Дарья',
-          password: 'test123'
-        }
-      }
-    }).as('fetchUser');
-
     cy.intercept('POST', '**/orders', {
       statusCode: 200,
       body: {
@@ -91,32 +82,26 @@ describe('Тест: моковый пользователь, cоздание з�
     };
 
     const mockAccessToken = 'mock-access-token';
-
     cy.setCookie('accessToken', mockAccessToken);
-    cy.stub(window, 'fetch').callsFake((url, options) => {
-      if (url.includes('/auth/user')) {
-        return Promise.resolve({
-          ok: true,
-          json: () =>
-            Promise.resolve({
-              success: true,
-              user: mockUser
-            })
-        });
-      }
 
-      return fetch(url, options);
+    cy.intercept('GET', '**/auth/user', {
+      statusCode: 200,
+      body: {
+        success: true,
+        user: mockUser
+      }
+    }).as('fetchUser');
+
+    cy.wait(500);
+
+    cy.wait('@fetchUser', { timeout: 10000 }).then((interception) => {
+      expect(interception.response.statusCode).to.equal(200);
     });
 
-    cy.get('[data-cy="ingredient-item"][data-type="bun"]')
-      .first()
-      .find('button')
-      .click();
+    cy.get(SELECTORS.BUN_ITEM).first().find('button').click();
 
-    cy.get('[data-cy="ingredient-item"][data-type="main"]')
-      .first()
-      .find('button')
-      .click();
+    cy.get(SELECTORS.MAIN_ITEM).first().find('button').click();
+
     cy.wait('@fetchUser').then((interception) => {
       expect(interception.response.statusCode).to.equal(200);
       expect(interception.response.body.success).to.be.true;
@@ -146,17 +131,17 @@ describe('Тест: моковый пользователь, cоздание з�
       .then((state) => {
         const user = state.user.user;
         expect(user).to.deep.equal(mockUser);
-        cy.get('[data-cy="user-name"]').should('contain', mockUser.name);
+        cy.get(SELECTORS.USER_NAME).should('contain', mockUser.name);
       });
 
-    cy.get('[data-cy="order-btn"]').click();
+    cy.get(SELECTORS.ORDER_BUTTON).click();
 
-    cy.get('[data-cy="modal"]').should('exist');
-    cy.get('[data-cy="modal"]').should('contain', '12345');
+    cy.get(SELECTORS.MODAL).should('exist');
+    cy.get(SELECTORS.MODAL).should('contain', '12345');
 
-    cy.get('[data-cy="modal-close"]').click();
+    cy.get(SELECTORS.MODAL_CLOSE).click();
 
-    cy.get('[data-cy="modal"]').should('not.exist');
+    cy.get(SELECTORS.MODAL).should('not.exist');
 
     cy.window().then((win) => {
       const state = win.store.getState();

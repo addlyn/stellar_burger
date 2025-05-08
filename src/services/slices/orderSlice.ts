@@ -13,7 +13,7 @@ interface OrderState {
   orderError: string | null;
 }
 
-const initialState: OrderState = {
+export const initialState: OrderState = {
   orders: [],
   total: 0,
   totalToday: 0,

@@ -10,7 +10,7 @@ interface IngredientsState {
   currentIngredient: null | TIngredient;
 }
 
-const initialState: IngredientsState = {
+export const initialState: IngredientsState = {
   items: [],
   loading: false,
   error: null,

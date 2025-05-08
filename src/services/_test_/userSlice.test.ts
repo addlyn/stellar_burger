@@ -3,19 +3,12 @@ import reducer, {
   loginUser,
   fetchUser,
   updateUser,
-  logoutUser
+  logoutUser,
+  initialState
 } from '../slices/userSlice';
 import { TUser } from '@utils-types';
 
 describe('Редьюсер userSlice', () => {
-  const initialState = {
-    user: null,
-    loading: false,
-    error: undefined,
-    isAuthenticated: false,
-    isLoading: true
-  };
-
   const mockUser: TUser = {
     email: 'daria123@test.com',
     name: 'Дарья'
